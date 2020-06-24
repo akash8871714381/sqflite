@@ -1,4 +1,9 @@
+import 'package:demo/database_helper.dart';
+import 'package:demo/update.dart';
 import 'package:flutter/material.dart';
+
+import 'delete.dart';
+import 'insert.dart';
 
 void main() {
   runApp(MyApp());
@@ -47,7 +52,8 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
            RaisedButton(
              onPressed: (){
-             print("Insert");
+             Navigator.push(
+            context, MaterialPageRoute(builder: (context) => InsertPage()));
             },
             child: Text(
               "Insert"
@@ -55,15 +61,17 @@ class _MyHomePageState extends State<MyHomePage> {
            ),
            RaisedButton(
              onPressed: (){
-             print("Update");
+             Navigator.push(
+            context, MaterialPageRoute(builder: (context) => UpdatePage()));
             },
             child: Text(
               "Update"
             ),
            ),
            RaisedButton(
-             onPressed: (){
-             print("Select");
+             onPressed: ()async{
+             List<Map<String,dynamic>> getData = await DatabaseHelper.instance.queryAll();
+             print(getData);
             },
             child: Text(
               "Select"
@@ -71,7 +79,8 @@ class _MyHomePageState extends State<MyHomePage> {
            ),
            RaisedButton(
              onPressed: (){
-             print("Delete");
+             Navigator.push(
+            context, MaterialPageRoute(builder: (context) => DeletePage()));
             },
             child: Text(
               "Delete"

@@ -5,9 +5,12 @@ import 'package:path/path.dart';
 class DatabaseHelper{
   static final _dbName        =     'demodb';
   static final _dbVersion     =     1;
-  // static final _tableName     =     'demotab';
-  // static final columnId       =     '_id';
-  // static final columnName     =     'name';
+  static final _tableName     =     'demotab';
+  static final column1        =     'id';
+  static final column2        =     'name';
+  static final column3        =     'number';
+  static final column4        =     'email';
+
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
   static Database _database;
@@ -23,13 +26,14 @@ class DatabaseHelper{
   }
   Future _onCreate(Database db,int version) async{
     await db.execute(
-      "CREATE TABLE demotab ("
-          "id INTEGER PRIMARY KEY,"
-          "first_name TEXT NOT NULL,"
-          "last_name TEXT NOT NULL,"
-          "email TEXT NOT NULL"
-          ")"
-
+      '''
+      CREATE TABLE $_tableName (
+          $column1 INTEGER PRIMARY KEY,
+          $column2 TEXT NOT NULL,
+          $column3 TEXT NOT NULL,
+          $column4 TEXT NOT NULL
+          )
+      '''
       );
       
   }
@@ -46,5 +50,8 @@ class DatabaseHelper{
     int id = row['id'];
     return await db.update("demotab",row,where:'id = ?',whereArgs: [id]);
   }
-  
+  Future<int> delete(int id) async{
+    Database db = await instance.database;
+    return await db.delete("demotab",where:"id=?",whereArgs: [id]);
+  }
 }
